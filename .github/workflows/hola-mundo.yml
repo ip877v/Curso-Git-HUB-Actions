@@ -1,4 +1,4 @@
-name: Aprendiendo Github Actions IPM
+name: Aprendiendo Github Actions
 run-name: Estoy aprendiendo Github Actions!!!
 on: [push]
 jobs:
