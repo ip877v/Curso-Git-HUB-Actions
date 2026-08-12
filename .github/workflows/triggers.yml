@@ -1,0 +1,40 @@
+name: Triggers
+on:
+  push:
+    branches:
+      - main
+      - aprendiendo-github-actions
+  pull_request:
+    branches:
+      - main
+      - aprendiendo-github-actions
+    types: #especifica el tipo de pull request
+      - opened
+      - labeled
+    paths: #especifica si se activa cuando haya cambios en ciertos archivos
+      - "**.py"
+  issues:
+    types:
+      - closed
+      - opened
+      - edited
+  issue_comment:
+    types:
+      - created
+      - edited
+      - deleted
+
+jobs:
+  nombre-job-aprendiendo-triggers:
+    name: Ejemplo workflow para aprender triggers
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: clonar el repositorio con la action checkout
+        uses: actions/checkout@v4
+      - name: Correr script
+        run: python Holamundo.py
+        with:
+          python-version: "3.10"
+      - name: correr el script de python
+        run: python main.py
