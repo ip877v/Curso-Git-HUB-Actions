@@ -1,0 +1,13 @@
+name: Variables
+run-name: ¡Estoy aprendiendo Variables!
+on: [push, pull_request]
+env:
+  Disco1: Mer de Noms
+  Disco2: Master of Puppets
+  Disco3: Infest
+jobs:
+  Variables:
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo discos
+        run: echo "El $Disco1 es de APC, el $Disco2 es de Metallica, el $Disco3 es de Papa roach"
