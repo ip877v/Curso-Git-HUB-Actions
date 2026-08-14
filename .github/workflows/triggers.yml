@@ -1,40 +1,53 @@
 name: Triggers
+run-name: ¡Estoy aprendiendo a usar diferentes Triggers!
 on:
   push:
     branches:
-      - main
-      - aprendiendo-github-actions
+      - master
   pull_request:
-    branches:
-      - main
-      - aprendiendo-github-actions
-    types: #especifica el tipo de pull request
-      - opened
-      - labeled
-    paths: #especifica si se activa cuando haya cambios en ciertos archivos
-      - "**.py"
+    types: [opened, synchronize, reopened]
+    paths:
+      - '**.py'
   issues:
     types:
-      - closed
-      - opened
-      - edited
-  issue_comment:
-    types:
-      - created
-      - edited
-      - deleted
-
+      - labeled
+  workflow_dispatch:
+    inputs:
+      lenguaje_favorito:
+        description: 'Lenguaje favorito'
+        default: Python
+        required: true
+        type: choice
+        options:
+        - Python
+        - JavaScript
+        - Go
+      nombre:
+        description: 'Tu nombre'
+        required: true
+        default: Juan
+        type: string
+  schedule:
+    - cron:  '15 22 * * *'
 jobs:
-  nombre-job-aprendiendo-triggers:
-    name: Ejemplo workflow para aprender triggers
+  hola-mundo-manual:
     runs-on: ubuntu-latest
-
     steps:
-      - name: clonar el repositorio con la action checkout
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Definir nombre
+        run: echo "USERNAME=${{ inputs.nombre }}" >> $GITHUB_ENV
+      - name: Definir lenguaje
+        run: echo "LANGUAGE=${{ inputs.lenguaje_favorito }}" >> $GITHUB_ENV
       - name: Correr script
-        run: python Holamundo.py
-        with:
-          python-version: "3.10"
-      - name: correr el script de python
-        run: python main.py
+        run: python hola_lenguaje.py
+  hola-mundo:
+    if: ${{ github.event_name != 'workflow_dispatch' }}
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Definir variable
+        run: echo "USERNAME=${{ github.actor }}" >> $GITHUB_ENV
+      - name: Correr script
+        run: python hola_mundo.py
